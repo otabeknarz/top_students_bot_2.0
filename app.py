@@ -112,6 +112,10 @@ async def command_start_handler(message: Message) -> None:
         ),
         reply_markup=buttons.main_keyboard(),
     )
+    await asyncio.sleep(1)
+    await message.answer(
+        "Shu postni 3 ta va undan ortiq do'stingizga yuboring. Ular botdan ro'yxatdan o'tishi bilan siz marathon kanaliga qo'shilish uchun linkni olasiz."
+    )
 
 
 @dp.message(TextEqualsFilter("📊 Natijalarim"))

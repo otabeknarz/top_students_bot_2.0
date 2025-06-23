@@ -1,6 +1,6 @@
 import requests
 from aiogram import Bot
-from aiogram.types import Message
+from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 from . import settings
 
@@ -63,12 +63,23 @@ async def handle_start_with_invitation(bot: Bot, message: Message, parts):
         if invited_by_response.ok:
             invited_by_json = invited_by_response.json()
             if (
-                not invited_by_json.get("has_taken_gift")
-                and len(invited_by_json.get("invitations", []))
-                == settings.USERS_SHOULD_INVITE_COUNT
+                    not invited_by_json.get("has_taken_gift")
+                    and len(invited_by_json.get("invitations", []))
+                    == settings.USERS_SHOULD_INVITE_COUNT
             ):
                 await bot.send_message(
-                    invited_by_id, "Siz hammani taklif qildingiz rahmat"
+                    invited_by_id,
+                    "Siz hozirgina 3 ta do'stingizni taklif qildingiz va ushbu tugmani bosib marafon kanalimizga ulanib oling",
+                    reply_markup=InlineKeyboardMarkup(
+                        inline_keyboard=[
+                            [
+                                InlineKeyboardButton(
+                                    text="Marafon kanaliga ulanish",
+                                    url="https://t.me/+wMRIib4Gtlc2ZWZi",
+                                )
+                            ]
+                        ]
+                    ),
                 )
                 patch_request(
                     url=f"{settings.USERS_API}{invited_by_id}/",
