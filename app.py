@@ -8,7 +8,8 @@ from aiogram import Bot, Dispatcher, html
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import Message, CallbackQuery
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.types import Message, CallbackQuery, FSInputFile
 
 from modules import functions
 from modules import settings
@@ -23,11 +24,12 @@ logger = logging.getLogger(__name__)
 TOKEN = getenv("BOT_TOKEN")
 
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-dp = Dispatcher()
+dp = Dispatcher(storage=MemoryStorage())
 
 buttons = Buttons()
 inline_buttons = InlineButtons()
 
+photo = FSInputFile("top-students.jpg")
 get_welcome_text = (
     lambda name, join_link: f"""
 🚀 <strong>{name}</strong> is inviting you to "TOP Students" marathon 2.0
@@ -98,8 +100,9 @@ async def command_start_handler(message: Message) -> None:
         )
 
     json_response = response.json()
-    await message.answer(
-        get_welcome_text(
+    await message.answer_photo(
+        photo=photo,
+        caption=get_welcome_text(
             (
                 f"@{message.chat.username}"
                 if message.chat.username
@@ -134,9 +137,7 @@ async def all_callback_handler(callback: CallbackQuery) -> None:
     if query == "joined":
         subscription_statuses = {True: {}, False: {}}
         for channel_id, (channel_name, channel_link) in settings.CHANNELS_IDs.items():
-            status = await check_is_subscribed(
-                channel_id, callback.message.from_user.id
-            )
+            status = await check_is_subscribed(channel_id, callback.message.chat.id)
             subscription_statuses[status].update(
                 {channel_id: (channel_name, channel_link)}
             )
@@ -162,8 +163,9 @@ async def all_callback_handler(callback: CallbackQuery) -> None:
                 )
 
             json_response = response.json()
-            await callback.message.answer(
-                get_welcome_text(
+            await callback.message.answer_photo(
+                photo=photo,
+                caption=get_welcome_text(
                     (
                         f"@{callback.message.chat.username}"
                         if callback.message.chat.username

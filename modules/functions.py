@@ -63,9 +63,9 @@ async def handle_start_with_invitation(bot: Bot, message: Message, parts):
         if invited_by_response.ok:
             invited_by_json = invited_by_response.json()
             if (
-                    not invited_by_json.get("has_taken_gift")
-                    and len(invited_by_json.get("invitations", []))
-                    == settings.USERS_SHOULD_INVITE_COUNT
+                not invited_by_json.get("has_taken_gift")
+                and len(invited_by_json.get("invitations", []))
+                == settings.USERS_SHOULD_INVITE_COUNT
             ):
                 await bot.send_message(
                     invited_by_id, "Siz hammani taklif qildingiz rahmat"
