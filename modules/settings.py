@@ -2,7 +2,7 @@ import pathlib
 import os
 from dotenv import load_dotenv
 
-BASE_DIR = pathlib.Path(__file__).parent
+BASE_DIR = pathlib.Path(__file__).parent.parent
 load_dotenv(dotenv_path=BASE_DIR / ".env")
 
 USERS_SHOULD_INVITE_COUNT = 3
