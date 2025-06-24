@@ -15,5 +15,5 @@ CHANNELS_IDs = {
     -1001825051597: ("Azizbek Zaylobiddinov", "https://t.me/abdulazizziy"),
     -1002277135189: ("Saidafzal Shukurov", "https://t.me/shoks927"),
     -1002078049933: ("Akramjon Abdurakhimov", "https://t.me/akramjon_io"),
-    # -1001803075478: ("Ozodbek Eshboboev", "https://t.me/ozodiiy"),
+    -1001803075478: ("Ozodbek Eshboboev", "https://t.me/ozodiiy"),
 }
